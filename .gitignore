@@ -1,1 +1,4 @@
-./scss/
+.sass-cache/
+base.css
+base.css.map
+
