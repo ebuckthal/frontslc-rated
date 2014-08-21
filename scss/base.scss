@@ -5,6 +5,11 @@ body {
     background-color: #efefef;
 }
 
+
+h1 {
+    text-align: center;
+}
+
 .content {
     width: 640px;
     margin: 0 auto;
@@ -14,16 +19,16 @@ body {
     }
 }
 
-h1 {
-    text-align: center;
-}
-
 .keypad {
 
     overflow: hidden;
     text-align: center;
 
+    padding: 10px 0;
+
     .button {
+        background-color: #fff;
+
         padding: 2px;
         margin: 2px;
 
@@ -31,10 +36,16 @@ h1 {
 
         display: inline-block;
 
-        border: 1px solid black;
-
         font-size: 4em;
         line-height: 140%;
+
+        box-shadow: 5px 5px 0px #000;
+
+        &:active {
+            box-shadow: 0px 0px 0px #000;
+            top: 2px;
+            left: 2px;
+        }
     }
 }
 
