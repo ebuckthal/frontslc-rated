@@ -4,30 +4,112 @@
         <title>Reroute</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
-        <link rel="stylesheet" href="/base.css"></link>
+        <link rel="stylesheet" href="/base.css">
+
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     </head>
     <body>
-        <div class="main">
-            <div class="content">
+        <div class="stay">
+            <h1>Rate this route!</h1>
 
-                <h1>Rate this route!</h1>
-
-                <div class="keypad">
-                    <button>1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button>4</button>
-                    <button>5</button>
-                    <button>6</button>
-                    <button>7</button>
-                    <button>8</button>
-                    <button>9</button>
-                    <button>0</button>
-                    <button>A</button>
-                    <button>B</button>
-                </div>
-
+            <div class="route-num">
+                <span class="num">&nbsp;</span>
+                <span class="num">&nbsp;</span>
+                <span class="num">&nbsp;</span>
+                <span class="num">&nbsp;</span>
+                <span class="button clear">x</span>
             </div>
         </div>
+
+        <div class="main">
+
+            <div class="content">
+                <div class="screen">
+                    <div class="keypad">
+                        <span class="button key" data-val="1">1</span>
+                        <span class="button key" data-val="2">2</span>
+                        <span class="button key" data-val="3">3</span>
+                        <span class="button key" data-val="4">4</span>
+                        <span class="button key" data-val="5">5</span>
+                        <span class="button key" data-val="6">6</span>
+                        <span class="button key" data-val="7">7</span>
+                        <span class="button key" data-val="8">8</span>
+                        <span class="button key" data-val="9">9</span>
+                        <span class="button key" data-val="0">0</span>
+                        <span class="button key" data-val="A">A</span>
+                        <span class="button key" data-val="B">B</span>
+                    </div>
+                </div>
+                <div class="screen">
+                    <p>Rate this route!</p>
+                    <div class="chart stars">
+                    </div>
+                </div>
+                <div class="screen">
+                    <p>Rate this route!</p>
+                    <div class="chart diff">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // SCREEN STUFF
+
+            var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+            var screens = document.querySelectorAll('.screen');
+
+            for(var i = 0; i < screens.length; i++) {
+                screens[i].setAttribute('style', 'height: ' + h + 'px;');
+            }
+
+            // BUTTON STUFF
+            var buttons = document.querySelectorAll('.button');
+            var nums = document.querySelectorAll('.num');
+            var clear = document.querySelectorAll('.clear')[0];
+            var entry = [];
+
+            for(var i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener('click', function(e) { 
+                    if (entry.length < nums.length) {
+                        entry.push(this.dataset.val);
+                        nums[entry.length-1].innerHTML = this.dataset.val
+                    }
+                });
+            }
+
+            clear.addEventListener('click', function(e) {
+                entry = [];
+                for(var i = 0; i < nums.length; i++) {
+                    nums[i].innerHTML = '&nbsp';
+                }
+            });
+
+            // RATINGS
+
+            var stars = [3,10,2,4,0];
+            var diffs = [4,2,7,7,13];
+
+            var stars_max = Math.max.apply(null, stars);
+            var diffs_max = Math.max.apply(null, diffs);
+
+
+            d3.select(".chart.stars")
+            .selectAll("div")
+            .data(stars)
+            .enter().append("div")
+            .style("height", function(d) { return ((d+1) / (stars_max+1)) * 100 + "%"; })
+            .text(function(d) { return d; });
+
+            d3.select(".chart.diff")
+            .selectAll("div")
+            .data(diffs)
+            .enter().append("div")
+            .style("height", function(d) { return ((d+1) / (diffs_max+1)) * 100 + "%"; })
+            .text(function(d) { return d; });
+
+        </script>
     </body>
 </html>
