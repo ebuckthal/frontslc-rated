@@ -13,8 +13,18 @@ p {
     text-align: center;
 }
 
+.hidden {
+    display: none !important;
+}
+
 .main {
+    position: relative;
+    top: 120px;
+}
+
+.content {
     width: 640px;
+
     margin: 0 auto;
 
     @media (max-width: 640px) {
@@ -22,16 +32,12 @@ p {
     }
 }
 
-.content {
-    z-index: 0;
-}
-
 .stay {
     top: 0;
     position: fixed;
     width: 100%;
     background-color: #555;
-    z-index: 100;
+    height: 120px;
 }
 
 .screen {
@@ -70,6 +76,45 @@ p {
     }
 }
 
+.tabs {
+    float: none;
+    list-style: none;
+    position: relative;
+    text-align: center;
+
+    li {
+        display: inline-block;
+    }
+
+    input[type="radio"] {
+        display:none;
+    }
+
+    label {
+        position: relative;
+        cursor: pointer;
+        margin: 20px;
+    }
+
+    .tab-content {
+        display: none;
+        overflow: hidden;
+        width: 100%;
+        position: absolute;
+        left: 0;
+
+        padding-top: 20px;
+    }
+
+    [id^="tab"]:checked + label {
+        color: red;
+    }
+
+    [id^="tab"]:checked ~ [id^="tab-content"] {
+        display: block;
+    }
+}
+
 .route-num {
 
     overflow: hidden;
@@ -102,9 +147,7 @@ p {
 
     overflow: hidden;
     text-align: center;
-
-    padding: 10px 0;
-
+    position: relative;
 }
 
 .chart {
