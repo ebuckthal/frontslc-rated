@@ -55,7 +55,7 @@ window.addEventListener('load', function() {
         document.querySelector('li#rate-tab').classList.add('hidden');
     }
 
-    var buttons = document.querySelectorAll('.button');
+    var buttons = document.querySelectorAll('.button.key');
     var nums = document.querySelectorAll('.num');
     var clear = document.querySelectorAll('.clear')[0];
     var entry = [];
@@ -97,14 +97,14 @@ window.addEventListener('load', function() {
     var diffs_max = Math.max.apply(null, diffs);
 
 
-    d3.select(".chart.stars")
+    d3.select("#chart-stars")
     .selectAll("div")
     .data(stars)
     .enter().append("div")
     .style("height", function(d) { return ((d+1) / (stars_max+1)) * 100 + "%"; })
     .text(function(d) { return d; })
 
-    d3.select(".chart.diff")
+    d3.select("#chart-diff")
     .selectAll("div")
     .data(diffs)
     .enter().append("div")
