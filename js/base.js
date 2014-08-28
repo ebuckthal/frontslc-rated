@@ -55,9 +55,9 @@ window.addEventListener('load', function() {
         document.querySelector('li#rate-tab').classList.add('hidden');
     }
 
-    var buttons = document.querySelectorAll('.button.key');
+    var buttons = document.querySelectorAll('.keypad .button');
     var nums = document.querySelectorAll('.num');
-    var clear = document.querySelectorAll('.clear')[0];
+    var clear = document.querySelector('.clear.button');
     var entry = [];
 
 
@@ -93,22 +93,70 @@ window.addEventListener('load', function() {
     var stars = [3,10,2,4,0];
     var diffs = [4,2,7,7,13];
 
-    var stars_max = Math.max.apply(null, stars);
-    var diffs_max = Math.max.apply(null, diffs);
+    function update_rating(stars, my_rate) {
+
+        var my_stars = stars.slice();
+
+        if (typeof my_rate !== undefined) {
+            my_stars[my_rate]++;
+        }
+
+        var stars_max = Math.max.apply(null, my_stars);
+
+        var s = d3.select("#chart-stars .bars")
+            .selectAll("div");
+        
+        s
+            .data(my_stars)
+            .enter().insert("div", ":first-child");
+
+        s
+            .style("height", function(d) { return ((d+1) / (stars_max+1)) * 100 + "%"; })
+            .text(function(d) { return d; })
+    }
+
+    function update_diff(diffs, my_diff) {
+
+        var my_diffs = diffs.slice();
+
+        if (typeof my_diff!== undefined) {
+            my_diffs[my_diff]++;
+        }
+
+        var diffs_max = Math.max.apply(null, my_diffs);
+
+        var s = d3.select("#chart-diff .bars")
+            .selectAll("div");
+        
+        s
+            .data(my_diffs)
+            .enter().insert("div", ":first-child");
+
+        s
+            .style("height", function(d) { return ((d+1) / (diffs_max+1)) * 100 + "%"; })
+            .text(function(d) { return d; })
+    }
+
+    update_rating(stars);
+    update_diff(diffs);
+
+    var starbuts = document.querySelectorAll('#chart-stars .button');
+    var diffbuts = document.querySelectorAll('#chart-diff .button');
+
+    for(var i = 0; i < starbuts.length; i++) {
+        starbuts[i].addEventListener('click', function(e) { 
+
+            update_rating(stars, this.dataset.val-1);
+        })
+    }
+
+    for(var i = 0; i < diffbuts.length; i++) {
+        diffbuts[i].addEventListener('click', function(e) { 
+
+            update_diff(diffs, this.dataset.val-1);
+        })
+    }
 
 
-    d3.select("#chart-stars")
-    .selectAll("div")
-    .data(stars)
-    .enter().append("div")
-    .style("height", function(d) { return ((d+1) / (stars_max+1)) * 100 + "%"; })
-    .text(function(d) { return d; })
-
-    d3.select("#chart-diff")
-    .selectAll("div")
-    .data(diffs)
-    .enter().append("div")
-    .style("height", function(d) { return ((d+1) / (diffs_max+1)) * 100 + "%"; })
-    .text(function(d) { return d; });
 
 })(document, d3);
